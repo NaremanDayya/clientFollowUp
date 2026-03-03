@@ -37,12 +37,12 @@
                            class="px-5 py-2.5 text-sm font-medium text-white/90 hover:text-white transition-colors">
                             تسجيل الدخول
                         </a>
-                        @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                           class="px-5 py-2.5 text-sm font-medium text-[#1e3a8a] bg-white rounded-lg hover:bg-gray-100 shadow-lg shadow-black/10 transition-all">
-                            إنشاء حساب
-                        </a>
-                        @endif
+{{--                        @if (Route::has('register'))--}}
+{{--                        <a href="{{ route('register') }}"--}}
+{{--                           class="px-5 py-2.5 text-sm font-medium text-[#1e3a8a] bg-white rounded-lg hover:bg-gray-100 shadow-lg shadow-black/10 transition-all">--}}
+{{--                            إنشاء حساب--}}
+{{--                        </a>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
             </nav>

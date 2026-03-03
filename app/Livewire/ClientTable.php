@@ -9,12 +9,13 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.app')]
 #[Title('العملاء')]
 class ClientTable extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     #[Url]
     public string $search = '';
@@ -26,6 +27,7 @@ class ClientTable extends Component
     // Create client modal
     public bool $showCreateModal = false;
     public string $newName = '';
+    public $newLogo = null;
     public string $newPhone = '';
     public string $newEmail = '';
     public string $newStatus = 'new';
@@ -50,14 +52,24 @@ class ClientTable extends Component
     {
         $this->validate([
             'newName' => 'required|string|max:255',
-            'newPhone' => 'nullable|string|max:20',
+            'newLogo' => 'required|image|max:2048',
+            'newPhone' => ['required', 'digits:10'],
             'newEmail' => 'nullable|email|max:255',
             'newStatus' => 'required|in:new,active,inactive,completed',
             'newAssignedTo' => 'nullable|exists:users,id',
+        ], [
+            'newPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
+            'newLogo.required' => 'شعار العميل مطلوب',
+            'newLogo.image' => 'يجب أن يكون الشعار صورة',
+            'newLogo.max' => 'حجم الشعار يجب أن لا يتجاوز 2 ميجابايت',
         ]);
+
+        // Upload logo
+        $logoPath = $this->newLogo->store('client-logos', 'public');
 
         Client::create([
             'name' => $this->newName,
+            'logo' => $logoPath,
             'phone' => $this->newPhone,
             'email' => $this->newEmail,
             'status' => $this->newStatus,
@@ -65,7 +77,7 @@ class ClientTable extends Component
             'last_update_at' => now(),
         ]);
 
-        $this->reset(['newName', 'newPhone', 'newEmail', 'newStatus', 'newAssignedTo', 'showCreateModal']);
+        $this->reset(['newName', 'newLogo', 'newPhone', 'newEmail', 'newStatus', 'newAssignedTo', 'showCreateModal']);
         $this->dispatch('client-created');
     }
 

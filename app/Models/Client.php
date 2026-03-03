@@ -14,6 +14,7 @@ class Client extends Model
 
     protected $fillable = [
         'name',
+        'logo',
         'phone',
         'email',
         'status',
@@ -55,6 +56,49 @@ class Client extends Model
     public function getIsLateAttribute(): bool
     {
         return $this->isLate();
+    }
+
+    /**
+     * Get the formatted international phone number.
+     * Removes leading zero and prepends +966 (Saudi Arabia)
+     */
+    public function getFormattedPhoneAttribute(): ?string
+    {
+        if (!$this->phone) {
+            return null;
+        }
+
+        // Remove leading zero and prepend +966
+        $phoneWithoutZero = ltrim($this->phone, '0');
+        return '+966' . $phoneWithoutZero;
+    }
+
+    /**
+     * Get the WhatsApp link for this client.
+     */
+    public function getWhatsappLinkAttribute(): ?string
+    {
+        if (!$this->phone) {
+            return null;
+        }
+
+        // Remove leading zero and prepend 966 (no + for WhatsApp links)
+        $phoneWithoutZero = ltrim($this->phone, '0');
+        return 'https://wa.me/966' . $phoneWithoutZero;
+    }
+
+    /**
+     * Get the logo URL or a default avatar.
+     */
+    public function getLogoUrlAttribute(): string
+    {
+        if ($this->logo) {
+            return asset('storage/' . $this->logo);
+        }
+
+        // Default avatar with first letter of name
+        $initial = mb_substr($this->name, 0, 1);
+        return 'https://ui-avatars.com/api/?name=' . urlencode($initial) . '&color=1e3a8a&background=dbeafe&bold=true&size=128';
     }
 
     protected static function booted(): void
