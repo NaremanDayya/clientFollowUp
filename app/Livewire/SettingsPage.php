@@ -8,7 +8,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-#[Title('Settings')]
+#[Title('الإعدادات')]
 class SettingsPage extends Component
 {
     public string $updateGapDays = '';
@@ -26,7 +26,7 @@ class SettingsPage extends Component
 
         Setting::set('update_gap_days', $this->updateGapDays);
 
-        session()->flash('settings-saved', 'Settings saved successfully.');
+        session()->flash('settings-saved', 'تم حفظ الإعدادات بنجاح.');
     }
 
     public function render()

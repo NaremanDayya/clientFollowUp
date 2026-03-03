@@ -10,7 +10,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-#[Title('Client Profile')]
+#[Title('ملف العميل')]
 class ClientProfile extends Component
 {
     public Client $client;
@@ -69,7 +69,7 @@ class ClientProfile extends Component
         if ($this->client->chat) {
             $this->client->chat->messages()->create([
                 'sender_id' => auth()->id(),
-                'body' => 'Client info updated by ' . auth()->user()->name . '.',
+                'body' => 'تم تحديث بيانات العميل بواسطة ' . auth()->user()->name . '.',
                 'is_system_log' => true,
                 'is_read' => false,
             ]);
@@ -100,7 +100,7 @@ class ClientProfile extends Component
         if ($this->client->chat) {
             $this->client->chat->messages()->create([
                 'sender_id' => auth()->id(),
-                'body' => "Update: \"{$this->updateTitle}\" — by " . auth()->user()->name,
+                'body' => "تحديث: \"{$this->updateTitle}\" — بواسطة " . auth()->user()->name,
                 'is_system_log' => true,
                 'is_read' => false,
             ]);

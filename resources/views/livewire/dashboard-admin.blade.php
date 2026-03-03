@@ -5,7 +5,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Total Clients</p>
+                    <p class="text-sm font-medium text-gray-500">إجمالي العملاء</p>
                     <p class="text-3xl font-bold text-gray-900 mt-1">{{ $totalClients }}</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -18,7 +18,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Late Clients</p>
+                    <p class="text-sm font-medium text-gray-500">العملاء المتأخرون</p>
                     <p class="text-3xl font-bold {{ $lateClients > 0 ? 'text-red-600' : 'text-green-600' }} mt-1">{{ $lateClients }}</p>
                 </div>
                 <div class="w-12 h-12 {{ $lateClients > 0 ? 'bg-red-100' : 'bg-green-100' }} rounded-xl flex items-center justify-center">
@@ -31,7 +31,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Employees</p>
+                    <p class="text-sm font-medium text-gray-500">الموظفون</p>
                     <p class="text-3xl font-bold text-gray-900 mt-1">{{ $totalEmployees }}</p>
                 </div>
                 <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
@@ -44,37 +44,37 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Employee Activity --}}
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Employee Activity</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">نشاط الموظفين</h3>
             <div class="space-y-4">
                 @foreach($employeeStats as $emp)
                 <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center gap-3">
                         <img class="w-10 h-10 rounded-full ring-2 ring-gray-200 object-cover" src="{{ $emp->avatar_url }}" alt="">
                         <div>
                             <p class="text-sm font-semibold text-gray-900">{{ $emp->name }}</p>
-                            <p class="text-xs text-gray-500">{{ $emp->clients_count }} clients</p>
+                            <p class="text-xs text-gray-500">{{ $emp->clients_count }} عميل</p>
                         </div>
                     </div>
                     <div class="text-right">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-[#1e3a8a]">
-                            {{ $emp->client_updates_count }} updates
+                            {{ $emp->client_updates_count }} تحديث
                         </span>
                     </div>
                 </div>
                 @endforeach
 
                 @if($employeeStats->isEmpty())
-                    <p class="text-sm text-gray-500 text-center py-4">No employees yet.</p>
+                    <p class="text-sm text-gray-500 text-center py-4">لا يوجد موظفون بعد.</p>
                 @endif
             </div>
         </div>
 
         {{-- Recent Updates --}}
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Updates</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">آخر التحديثات</h3>
             <div class="space-y-3">
                 @foreach($recentUpdates as $update)
-                <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                     <div class="w-8 h-8 bg-[#1e3a8a] rounded-full flex items-center justify-center flex-shrink-0">
                         <span class="text-xs font-bold text-white">{{ strtoupper(substr($update->user->name ?? 'S', 0, 1)) }}</span>
                     </div>
@@ -88,7 +88,7 @@
                 @endforeach
 
                 @if($recentUpdates->isEmpty())
-                    <p class="text-sm text-gray-500 text-center py-4">No updates yet.</p>
+                    <p class="text-sm text-gray-500 text-center py-4">لا توجد تحديثات بعد.</p>
                 @endif
             </div>
         </div>

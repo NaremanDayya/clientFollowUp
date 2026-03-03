@@ -5,7 +5,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">My Clients</p>
+                    <p class="text-sm font-medium text-gray-500">عملائي</p>
                     <p class="text-3xl font-bold text-gray-900 mt-1">{{ $myClients }}</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -18,7 +18,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Pending Updates</p>
+                    <p class="text-sm font-medium text-gray-500">تحديثات معلقة</p>
                     <p class="text-3xl font-bold {{ $pendingUpdates > 0 ? 'text-red-600' : 'text-green-600' }} mt-1">{{ $pendingUpdates }}</p>
                 </div>
                 <div class="w-12 h-12 {{ $pendingUpdates > 0 ? 'bg-red-100' : 'bg-green-100' }} rounded-xl flex items-center justify-center">
@@ -31,7 +31,7 @@
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Unread Messages</p>
+                    <p class="text-sm font-medium text-gray-500">رسائل غير مقروءة</p>
                     <p class="text-3xl font-bold text-gray-900 mt-1">{{ $recentMessages }}</p>
                 </div>
                 <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
@@ -43,10 +43,10 @@
 
     {{-- Recent Updates --}}
     <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">My Recent Updates</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">آخر تحديثاتي</h3>
         <div class="space-y-3">
             @foreach($myRecentUpdates as $update)
-            <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                 <div class="w-8 h-8 bg-[#1e3a8a] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                 </div>
@@ -63,7 +63,7 @@
             @endforeach
 
             @if($myRecentUpdates->isEmpty())
-                <p class="text-sm text-gray-500 text-center py-4">No updates yet. Start following up with your clients!</p>
+                <p class="text-sm text-gray-500 text-center py-4">لا توجد تحديثات بعد. ابدأ بمتابعة عملائك!</p>
             @endif
         </div>
     </div>

@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-#[Title('Chats')]
+#[Title('المحادثات')]
 class ChatPanel extends Component
 {
     public ?Chat $chat = null;

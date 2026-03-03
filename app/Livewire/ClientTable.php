@@ -11,7 +11,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
-#[Title('Clients')]
+#[Title('العملاء')]
 class ClientTable extends Component
 {
     use WithPagination;
