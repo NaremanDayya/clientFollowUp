@@ -69,11 +69,19 @@
             <div class="flex-1 overflow-y-auto p-6 space-y-4" id="messages-container" wire:poll.5s>
                 @foreach($messages as $message)
                     @if($message->is_system_log)
-                        {{-- System Message --}}
-                        <div class="flex justify-center">
-                            <div class="bg-amber-50 text-amber-700 text-xs px-3 py-1.5 rounded-full ring-1 ring-amber-200 max-w-md text-center">
-                                {{ $message->body }}
-                                <span class="text-amber-400 ml-1">{{ $message->created_at->format('h:i A') }}</span>
+                        {{-- System Log as Employee Message --}}
+                        <div class="flex justify-start">
+                            <div class="max-w-lg">
+                                <div class="flex items-center gap-2 mb-1 mr-1">
+                                    <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600">{{ $message->sender->name ?? 'النظام' }}</p>
+                                </div>
+                                <div class="bg-blue-50 border-r-4 border-blue-500 px-4 py-3 rounded-lg shadow-sm">
+                                    <p class="text-sm text-gray-800 leading-relaxed">{{ $message->body }}</p>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1 mr-1">{{ $message->created_at->format('h:i A') }}</p>
                             </div>
                         </div>
                     @elseif($message->sender_id === auth()->id())
