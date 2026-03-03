@@ -68,7 +68,8 @@
             {{-- Messages --}}
             <div class="flex-1 overflow-y-auto p-6 space-y-4" id="messages-container" wire:poll.5s 
                  x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }"
-                 x-init="scrollToBottom(); $watch('$wire.messages', () => { setTimeout(() => scrollToBottom(), 100) })">
+                 x-init="scrollToBottom()"
+                 @message-sent.window="setTimeout(() => scrollToBottom(), 100)">
                 @foreach($messages as $message)
                     @if($message->is_system_log)
                         {{-- System Log as Employee Message --}}

@@ -94,8 +94,12 @@ class ClientTable extends Component
         ];
 
         // Upload logo if provided
-        if ($this->newLogo) {
-            $data['logo'] = $this->newLogo->store('client-logos', 'public');
+        if ($this->newLogo && is_object($this->newLogo)) {
+            try {
+                $data['logo'] = $this->newLogo->store('client-logos', 'public');
+            } catch (\Exception $e) {
+                \Log::error('Logo upload failed: ' . $e->getMessage());
+            }
         }
 
         Client::create($data);

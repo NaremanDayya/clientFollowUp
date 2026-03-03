@@ -110,7 +110,7 @@ class Client extends Model
 
             $chat->messages()->create([
                 'sender_id' => auth()->id(),
-                'body' => "New client \"{$client->name}\" added by {$userName}.",
+                'body' => "تم إضافة العميل  \"{$client->name}\" بواسطة {$userName}.",
                 'is_system_log' => true,
                 'is_read' => true,
             ]);
