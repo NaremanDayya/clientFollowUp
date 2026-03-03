@@ -66,7 +66,9 @@
             </div>
 
             {{-- Messages --}}
-            <div class="flex-1 overflow-y-auto p-6 space-y-4" id="messages-container" wire:poll.5s>
+            <div class="flex-1 overflow-y-auto p-6 space-y-4" id="messages-container" wire:poll.5s 
+                 x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }"
+                 x-init="scrollToBottom(); $watch('$wire.messages', () => { setTimeout(() => scrollToBottom(), 100) })">
                 @foreach($messages as $message)
                     @if($message->is_system_log)
                         {{-- System Log as Employee Message --}}
@@ -79,7 +81,7 @@
                                     <p class="text-xs font-medium text-gray-600">{{ $message->sender->name ?? 'النظام' }}</p>
                                 </div>
                                 <div class="bg-blue-50 border-r-4 border-blue-500 px-4 py-3 rounded-lg shadow-sm">
-                                    <p class="text-sm text-gray-800 leading-relaxed">{{ $message->body }}</p>
+                                    <p class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{{ $message->body }}</p>
                                 </div>
                                 <p class="text-xs text-gray-400 mt-1 mr-1">{{ $message->created_at->format('h:i A') }}</p>
                             </div>

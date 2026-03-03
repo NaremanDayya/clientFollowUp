@@ -39,6 +39,13 @@ class ClientTable extends Component
     public string $updateTitle = '';
     public string $updateNotes = '';
 
+    protected function rules()
+    {
+        return [
+            'newLogo' => 'nullable|image|max:2048',
+        ];
+    }
+
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -56,18 +63,26 @@ class ClientTable extends Component
 
     public function createClient(): void
     {
+        // Validate all fields except logo first
         $this->validate([
             'newName' => 'required|string|max:255',
-            'newLogo' => 'nullable|image|max:2048',
             'newPhone' => ['required', 'digits:10'],
             'newEmail' => 'nullable|email|max:255',
             'newStatus' => 'required|in:new,active,inactive,completed',
             'newAssignedTo' => 'nullable|exists:users,id',
         ], [
             'newPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
-            'newLogo.image' => 'يجب أن يكون الشعار صورة',
-            'newLogo.max' => 'حجم الشعار يجب أن لا يتجاوز 2 ميجابايت',
         ]);
+
+        // Validate logo separately if provided
+        if ($this->newLogo) {
+            $this->validate([
+                'newLogo' => 'image|max:2048',
+            ], [
+                'newLogo.image' => 'يجب أن يكون الشعار صورة',
+                'newLogo.max' => 'حجم الشعار يجب أن لا يتجاوز 2 ميجابايت',
+            ]);
+        }
 
         $data = [
             'name' => $this->newName,
