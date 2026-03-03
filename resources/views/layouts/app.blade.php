@@ -16,20 +16,18 @@
         @livewireStyles
     </head>
     <body class="antialiased bg-gray-50" style="font-family: 'Tajawal', sans-serif;" x-data="{ sidebarOpen: false }">
-        <div class="min-h-screen flex">
-            {{-- Sidebar --}}
-            @include('layouts.sidebar')
+        {{-- Sidebar --}}
+        @include('layouts.sidebar')
 
-            {{-- Main Content --}}
-            <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
-                {{-- Top Header --}}
-                @include('layouts.header')
+        {{-- Main Content --}}
+        <div class="min-h-screen lg:mr-64">
+            {{-- Top Header --}}
+            @include('layouts.header')
 
-                {{-- Page Content --}}
-                <main class="flex-1 p-6">
-                    {{ $slot }}
-                </main>
-            </div>
+            {{-- Page Content --}}
+            <main class="p-6">
+                {{ $slot }}
+            </main>
         </div>
 
         {{-- Mobile sidebar overlay --}}
