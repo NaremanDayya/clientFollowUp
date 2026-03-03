@@ -21,7 +21,7 @@
             @include('layouts.sidebar')
 
             {{-- Main Content --}}
-            <div class="flex-1 flex flex-col min-h-screen lg:mr-64">
+            <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
                 {{-- Top Header --}}
                 @include('layouts.header')
 
