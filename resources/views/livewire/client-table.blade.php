@@ -160,8 +160,8 @@
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">شعار العميل *</label>
-                        <input wire:model.live="newLogo" type="file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">شعار العميل</label>
+                        <input wire:model="newLogo" type="file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
                         @error('newLogo') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
                         @if ($newLogo)
                             <div class="mt-2">

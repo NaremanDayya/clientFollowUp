@@ -58,30 +58,32 @@ class ClientTable extends Component
     {
         $this->validate([
             'newName' => 'required|string|max:255',
-            'newLogo' => 'required|image|max:2048',
+            'newLogo' => 'nullable|image|max:2048',
             'newPhone' => ['required', 'digits:10'],
             'newEmail' => 'nullable|email|max:255',
             'newStatus' => 'required|in:new,active,inactive,completed',
             'newAssignedTo' => 'nullable|exists:users,id',
         ], [
             'newPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
-            'newLogo.required' => 'شعار العميل مطلوب',
             'newLogo.image' => 'يجب أن يكون الشعار صورة',
             'newLogo.max' => 'حجم الشعار يجب أن لا يتجاوز 2 ميجابايت',
         ]);
 
-        // Upload logo
-        $logoPath = $this->newLogo->store('client-logos', 'public');
-
-        Client::create([
+        $data = [
             'name' => $this->newName,
-            'logo' => $logoPath,
             'phone' => $this->newPhone,
             'email' => $this->newEmail,
             'status' => $this->newStatus,
             'assigned_to' => $this->newAssignedTo,
             'last_update_at' => now(),
-        ]);
+        ];
+
+        // Upload logo if provided
+        if ($this->newLogo) {
+            $data['logo'] = $this->newLogo->store('client-logos', 'public');
+        }
+
+        Client::create($data);
 
         $this->reset(['newName', 'newLogo', 'newPhone', 'newEmail', 'newStatus', 'newAssignedTo', 'showCreateModal']);
         $this->dispatch('client-created');
