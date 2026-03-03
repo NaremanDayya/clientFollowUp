@@ -8,16 +8,19 @@ use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.app')]
 #[Title('ملف العميل')]
 class ClientProfile extends Component
 {
+    use WithFileUploads;
     public Client $client;
 
     // Edit fields
     public bool $editing = false;
     public string $editName = '';
+    public $editLogo = null;
     public string $editPhone = '';
     public string $editEmail = '';
     public string $editStatus = '';
@@ -48,22 +51,33 @@ class ClientProfile extends Component
 
     public function saveClient(): void
     {
-        $this->validate([
+        $validated = $this->validate([
             'editName' => 'required|string|max:255',
-            'editPhone' => 'nullable|string|max:20',
+            'editLogo' => 'nullable|image|max:2048',
+            'editPhone' => ['required', 'digits:10'],
             'editEmail' => 'nullable|email|max:255',
             'editStatus' => 'required|in:new,active,inactive,completed',
             'editAssignedTo' => 'nullable|exists:users,id',
+        ], [
+            'editPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
         ]);
 
-        $this->client->update([
+        $data = [
             'name' => $this->editName,
-            'phone' => $this->editPhone ?: null,
-            'email' => $this->editEmail ?: null,
+            'phone' => $this->editPhone,
+            'email' => $this->editEmail,
             'status' => $this->editStatus,
             'assigned_to' => $this->editAssignedTo,
-            'last_update_at' => now(),
-        ]);
+        ];
+
+        // Upload new logo if provided
+        if ($this->editLogo) {
+            $logoPath = $this->editLogo->store('client-logos', 'public');
+            $data['logo'] = $logoPath;
+        }
+
+        $data['last_update_at'] = now();
+        $this->client->update($data);
 
         // Log system message to chat
         if ($this->client->chat) {
