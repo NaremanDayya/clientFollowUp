@@ -81,8 +81,22 @@
                                 @error('editName') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                             </div>
                             <div>
+                                <label class="block text-xs font-medium text-gray-500 mb-1">شعار العميل</label>
+                                <div class="flex items-center gap-3">
+                                    <img src="{{ $client->logo_url }}" alt="{{ $client->name }}" class="w-12 h-12 rounded-lg object-cover ring-2 ring-gray-200">
+                                    <input wire:model.live="editLogo" type="file" accept="image/*" class="flex-1 text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-[#1e3a8a] hover:file:bg-blue-100">
+                                </div>
+                                @error('editLogo') <span class="text-xs text-red-500 block mt-1">{{ $message }}</span> @enderror
+                                @if ($editLogo)
+                                    <div class="mt-2">
+                                        <img src="{{ $editLogo->temporaryUrl() }}" class="w-16 h-16 rounded-lg object-cover ring-2 ring-blue-200">
+                                    </div>
+                                @endif
+                            </div>
+                            <div>
                                 <label class="block text-xs font-medium text-gray-500 mb-1">الهاتف</label>
-                                <input wire:model="editPhone" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
+                                <input wire:model="editPhone" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]" maxlength="10" placeholder="05xxxxxxxx">
+                                @error('editPhone') <span class="text-xs text-red-500 block mt-1">{{ $message }}</span> @enderror
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-500 mb-1">البريد</label>
