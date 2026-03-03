@@ -112,11 +112,18 @@
                             {{ $client->last_update_at ? $client->last_update_at->diffForHumans() : 'لم يتم' }}
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <a href="{{ route('clients.show', $client) }}"
-                               class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#1e3a8a] hover:bg-blue-50 transition-colors"
-                               title="عرض الملف">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                            </a>
+                            <div class="flex items-center justify-center gap-2">
+                                <button wire:click="openUpdateModal({{ $client->id }})"
+                                        class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-colors"
+                                        title="إضافة تحديث">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </button>
+                                <a href="{{ route('clients.show', $client) }}"
+                                   class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#1e3a8a] hover:bg-blue-50 transition-colors"
+                                   title="عرض الملف">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -154,8 +161,8 @@
                     
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">شعار العميل *</label>
-                        <input wire:model="newLogo" type="file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
-                        @error('newLogo') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                        <input wire:model.live="newLogo" type="file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
+                        @error('newLogo') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
                         @if ($newLogo)
                             <div class="mt-2">
                                 <img src="{{ $newLogo->temporaryUrl() }}" class="w-20 h-20 rounded-lg object-cover ring-2 ring-blue-200">
@@ -204,6 +211,42 @@
                         <button type="submit"
                                 class="px-4 py-2.5 text-sm font-medium text-white bg-[#1e3a8a] rounded-lg hover:bg-blue-800 shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-[#1e3a8a] transition-all">
                             إنشاء عميل
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- Add Update Modal --}}
+    @if($showUpdateModal)
+    <div class="fixed inset-0 z-50 overflow-y-auto" x-data x-init="document.body.classList.add('overflow-hidden')" x-on:remove="document.body.classList.remove('overflow-hidden')">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-black/50 transition-opacity" wire:click="$set('showUpdateModal', false)"></div>
+            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg z-10 ring-1 ring-gray-200">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">إضافة تحديث للعميل</h3>
+                </div>
+                <form wire:submit="addUpdate" class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">عنوان التحديث *</label>
+                        <input wire:model="updateTitle" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]" placeholder="مثال: تم إرسال العرض">
+                        @error('updateTitle') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">التفاصيل</label>
+                        <textarea wire:model="updateNotes" rows="4" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]" placeholder="أضف تفاصيل التحديث هنا..."></textarea>
+                        @error('updateNotes') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                        <button type="button" wire:click="$set('showUpdateModal', false)"
+                                class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                            إلغاء
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transition-all">
+                            إضافة التحديث
                         </button>
                     </div>
                 </form>

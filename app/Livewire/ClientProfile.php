@@ -98,9 +98,15 @@ class ClientProfile extends Component
 
         // Post system message to chat thread
         if ($this->client->chat) {
+            $messageBody = "تحديث: \"{$this->updateTitle}\"";
+            if ($this->updateNotes) {
+                $messageBody .= "\nالتفاصيل: {$this->updateNotes}";
+            }
+            $messageBody .= "\n— بواسطة " . auth()->user()->name;
+            
             $this->client->chat->messages()->create([
                 'sender_id' => auth()->id(),
-                'body' => "تحديث: \"{$this->updateTitle}\" — بواسطة " . auth()->user()->name,
+                'body' => $messageBody,
                 'is_system_log' => true,
                 'is_read' => false,
             ]);

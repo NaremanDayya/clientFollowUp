@@ -33,6 +33,12 @@ class ClientTable extends Component
     public string $newStatus = 'new';
     public ?int $newAssignedTo = null;
 
+    // Update modal
+    public bool $showUpdateModal = false;
+    public ?int $selectedClientId = null;
+    public string $updateTitle = '';
+    public string $updateNotes = '';
+
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -79,6 +85,52 @@ class ClientTable extends Component
 
         $this->reset(['newName', 'newLogo', 'newPhone', 'newEmail', 'newStatus', 'newAssignedTo', 'showCreateModal']);
         $this->dispatch('client-created');
+    }
+
+    public function openUpdateModal(int $clientId): void
+    {
+        $this->selectedClientId = $clientId;
+        $this->showUpdateModal = true;
+    }
+
+    public function addUpdate(): void
+    {
+        $this->validate([
+            'updateTitle' => 'required|string|max:255',
+            'updateNotes' => 'nullable|string',
+        ], [
+            'updateTitle.required' => 'عنوان التحديث مطلوب',
+        ]);
+
+        $client = Client::findOrFail($this->selectedClientId);
+
+        \App\Models\ClientUpdate::create([
+            'client_id' => $client->id,
+            'user_id' => auth()->id(),
+            'title' => $this->updateTitle,
+            'notes' => $this->updateNotes,
+        ]);
+
+        $client->update(['last_update_at' => now()]);
+
+        // Post system message to chat thread
+        if ($client->chat) {
+            $messageBody = "تحديث: \"{$this->updateTitle}\"";
+            if ($this->updateNotes) {
+                $messageBody .= "\nالتفاصيل: {$this->updateNotes}";
+            }
+            $messageBody .= "\n— بواسطة " . auth()->user()->name;
+            
+            $client->chat->messages()->create([
+                'sender_id' => auth()->id(),
+                'body' => $messageBody,
+                'is_system_log' => true,
+                'is_read' => false,
+            ]);
+        }
+
+        $this->reset(['updateTitle', 'updateNotes', 'showUpdateModal', 'selectedClientId']);
+        $this->dispatch('update-added');
     }
 
     public function render()
