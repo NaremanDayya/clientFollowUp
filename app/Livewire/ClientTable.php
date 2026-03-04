@@ -151,7 +151,7 @@ class ClientTable extends Component
                 $messageBody .= "\nالتفاصيل: {$this->updateNotes}";
             }
             $messageBody .= "\n— بواسطة " . auth()->user()->name;
-
+            
             $client->chat->messages()->create([
                 'sender_id' => auth()->id(),
                 'body' => $messageBody,
@@ -175,8 +175,8 @@ class ClientTable extends Component
         if ($this->search) {
             $query->where(function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('phone', 'like', "%{$this->search}%")
-                    ->orWhere('email', 'like', "%{$this->search}%");
+                  ->orWhere('phone', 'like', "%{$this->search}%")
+                  ->orWhere('email', 'like', "%{$this->search}%");
             });
         }
 
