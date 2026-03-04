@@ -5,11 +5,13 @@
             <h2 class="text-2xl font-bold text-gray-900">العملاء</h2>
             <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة سجلات العملاء.</p>
         </div>
+        @unless(auth()->user()->isAdmin())
         <button wire:click="$set('showCreateModal', true)"
                 class="inline-flex items-center px-4 py-2.5 bg-[#1e3a8a] text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1e3a8a] transition-all">
             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
             إضافة عميل
         </button>
+        @endunless
     </div>
 
     {{-- Filters --}}
