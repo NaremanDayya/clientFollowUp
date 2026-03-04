@@ -195,15 +195,6 @@
                                 <option value="completed">مكتمل</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">تعيين إلى</label>
-                            <select wire:model="newAssignedTo" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">
-                                <option value="">غير معين</option>
-                                @foreach($employees as $emp)
-                                    <option value="{{ $emp->id }}">{{ $emp->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                     <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
                         <button type="button" wire:click="$set('showCreateModal', false)"

@@ -31,7 +31,6 @@ class ClientTable extends Component
     public string $newPhone = '';
     public string $newEmail = '';
     public string $newStatus = 'new';
-    public ?int $newAssignedTo = null;
 
     // Update modal
     public bool $showUpdateModal = false;
@@ -69,7 +68,6 @@ class ClientTable extends Component
             'newPhone' => ['required', 'digits:10'],
             'newEmail' => 'nullable|email|max:255',
             'newStatus' => 'required|in:new,active,inactive,completed',
-            'newAssignedTo' => 'nullable|exists:users,id',
         ], [
             'newPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
         ]);
@@ -89,7 +87,7 @@ class ClientTable extends Component
             'phone' => $this->newPhone,
             'email' => $this->newEmail,
             'status' => $this->newStatus,
-            'assigned_to' => $this->newAssignedTo,
+            'assigned_to' => auth()->id(),
             'last_update_at' => now(),
         ];
 
@@ -104,7 +102,7 @@ class ClientTable extends Component
 
         Client::create($data);
 
-        $this->reset(['newName', 'newLogo', 'newPhone', 'newEmail', 'newStatus', 'newAssignedTo', 'showCreateModal']);
+        $this->reset(['newName', 'newLogo', 'newPhone', 'newEmail', 'newStatus', 'showCreateModal']);
         $this->dispatch('client-created');
     }
 
