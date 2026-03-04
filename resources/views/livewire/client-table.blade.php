@@ -122,6 +122,7 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                 </button>
                                 @endunless
+                                @livewire('client-calendar', ['client' => $client], key('calendar-'.$client->id))
                                 <a href="{{ route('clients.show', $client) }}"
                                    class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#1e3a8a] hover:bg-blue-50 transition-colors"
                                    title="عرض الملف">

@@ -41,6 +41,11 @@
         </div>
     </div>
 
+    {{-- Calendar Section --}}
+    <div class="mb-8">
+        @livewire('dashboard-calendar')
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Employee Activity --}}
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">

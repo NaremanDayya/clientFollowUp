@@ -41,6 +41,11 @@
         </div>
     </div>
 
+    {{-- Calendar Section --}}
+    <div class="mb-8">
+        @livewire('dashboard-calendar')
+    </div>
+
     {{-- Recent Updates --}}
     <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">آخر تحديثاتي</h3>
