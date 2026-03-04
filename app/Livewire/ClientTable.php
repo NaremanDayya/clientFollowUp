@@ -63,16 +63,6 @@ class ClientTable extends Component
 
     public function createClient(): void
     {
-        // DEBUG: Check if logo file is being received
-        dd([
-            'newLogo_value' => $this->newLogo,
-            'newLogo_type' => gettype($this->newLogo),
-            'newLogo_is_object' => is_object($this->newLogo),
-            'newLogo_class' => is_object($this->newLogo) ? get_class($this->newLogo) : null,
-            'newLogo_isValid' => is_object($this->newLogo) && method_exists($this->newLogo, 'isValid') ? $this->newLogo->isValid() : null,
-            'newLogo_path' => is_object($this->newLogo) && method_exists($this->newLogo, 'getRealPath') ? $this->newLogo->getRealPath() : null,
-        ]);
-
         // Validate all fields except logo first
         $this->validate([
             'newName' => 'required|string|max:255',

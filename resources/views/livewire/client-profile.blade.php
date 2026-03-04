@@ -84,7 +84,7 @@
                                 <label class="block text-xs font-medium text-gray-500 mb-1">شعار العميل</label>
                                 <div class="flex items-center gap-3">
                                     <img src="{{ $client->logo_url }}" alt="{{ $client->name }}" class="w-12 h-12 rounded-lg object-cover ring-2 ring-gray-200">
-                                    <input wire:model.live="editLogo" type="file" accept="image/*" class="flex-1 text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-[#1e3a8a] hover:file:bg-blue-100">
+                                    <input wire:model="editLogo" type="file" accept="image/*" class="flex-1 text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-[#1e3a8a] hover:file:bg-blue-100">
                                 </div>
                                 @error('editLogo') <span class="text-xs text-red-500 block mt-1">{{ $message }}</span> @enderror
                                 @if ($editLogo)
