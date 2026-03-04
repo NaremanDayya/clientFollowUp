@@ -79,7 +79,12 @@ class ChatPanel extends Component
             $query->whereHas('client', fn($q) => $q->where('name', 'like', "%{$this->chatSearch}%"));
         }
 
-        $chats = $query->latest('updated_at')->get();
+        $chats = $query->get()->sortByDesc(function ($chat) {
+            return [
+                $chat->unread_messages_count > 0 ? 1 : 0,
+                $chat->updated_at->timestamp
+            ];
+        })->values();
 
         $messages = $this->chat
             ? $this->chat->messages()->with('sender')->oldest()->get()
