@@ -95,10 +95,28 @@ class ClientTable extends Component
         // Upload logo if provided
         if ($this->newLogo && is_object($this->newLogo)) {
             try {
+                \Log::info('Attempting logo upload', [
+                    'filename' => $this->newLogo->getClientOriginalName(),
+                    'size' => $this->newLogo->getSize(),
+                    'mime' => $this->newLogo->getMimeType(),
+                    'temp_path' => $this->newLogo->getRealPath(),
+                ]);
+                
                 $data['logo'] = $this->newLogo->store('client-logos', 'public');
+                
+                \Log::info('Logo uploaded successfully', ['path' => $data['logo']]);
             } catch (\Exception $e) {
-                \Log::error('Logo upload failed: ' . $e->getMessage());
+                \Log::error('Logo upload failed', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+                session()->flash('error', 'فشل رفع الشعار: ' . $e->getMessage());
             }
+        } else {
+            \Log::warning('No logo provided or invalid object', [
+                'newLogo_value' => $this->newLogo,
+                'is_object' => is_object($this->newLogo),
+            ]);
         }
 
         Client::create($data);

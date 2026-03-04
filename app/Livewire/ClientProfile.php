@@ -72,8 +72,24 @@ class ClientProfile extends Component
 
         // Upload new logo if provided
         if ($this->editLogo) {
-            $logoPath = $this->editLogo->store('client-logos', 'public');
-            $data['logo'] = $logoPath;
+            try {
+                \Log::info('Attempting client logo update', [
+                    'client_id' => $this->client->id,
+                    'filename' => $this->editLogo->getClientOriginalName(),
+                    'size' => $this->editLogo->getSize(),
+                ]);
+                
+                $logoPath = $this->editLogo->store('client-logos', 'public');
+                $data['logo'] = $logoPath;
+                
+                \Log::info('Client logo updated successfully', ['path' => $logoPath]);
+            } catch (\Exception $e) {
+                \Log::error('Client logo update failed', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+                session()->flash('error', 'فشل رفع الشعار: ' . $e->getMessage());
+            }
         }
 
         $data['last_update_at'] = now();

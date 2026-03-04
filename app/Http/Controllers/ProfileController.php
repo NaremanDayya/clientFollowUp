@@ -30,8 +30,28 @@ class ProfileController extends Controller
 
         // Handle personal image upload
         if ($request->hasFile('personal_image')) {
-            $path = $request->file('personal_image')->store('avatars', 'public');
-            $data['personal_image'] = $path;
+            try {
+                $file = $request->file('personal_image');
+                \Log::info('Attempting profile image upload', [
+                    'user_id' => $request->user()->id,
+                    'filename' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'mime' => $file->getMimeType(),
+                ]);
+                
+                $path = $file->store('avatars', 'public');
+                $data['personal_image'] = $path;
+                
+                \Log::info('Profile image uploaded successfully', ['path' => $path]);
+            } catch (\Exception $e) {
+                \Log::error('Profile image upload failed', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+                return Redirect::route('profile.edit')->withErrors(['personal_image' => 'فشل رفع الصورة: ' . $e->getMessage()]);
+            }
+        } else {
+            \Log::info('No profile image uploaded in request');
         }
 
         // Update email verification if email changed
