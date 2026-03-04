@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Message;
+use App\Models\Chat;
 use Livewire\Component;
 
 class UnreadBadge extends Component
@@ -11,14 +11,19 @@ class UnreadBadge extends Component
 
     public function getUnreadCountProperty(): int
     {
-        return Message::where('is_read', false)
-            ->where('is_system_log', false)
-            ->whereHas('chat.client', function ($q) {
-                if (auth()->user()->isFollower()) {
-                    $q->where('assigned_to', auth()->id());
-                }
-            })
-            ->count();
+        $query = Chat::whereHas('messages', function ($q) {
+            $q->where('is_read', false)
+              ->where('is_system_log', false);
+        });
+
+        // Filter by user role
+        if (auth()->user()->isFollower()) {
+            $query->whereHas('client', function ($q) {
+                $q->where('assigned_to', auth()->id());
+            });
+        }
+
+        return $query->count();
     }
 
     public function render()
