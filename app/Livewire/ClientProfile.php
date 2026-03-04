@@ -51,6 +51,16 @@ class ClientProfile extends Component
 
     public function saveClient(): void
     {
+        // DEBUG: Check if logo file is being received
+        dd([
+            'editLogo_value' => $this->editLogo,
+            'editLogo_type' => gettype($this->editLogo),
+            'editLogo_is_object' => is_object($this->editLogo),
+            'editLogo_class' => is_object($this->editLogo) ? get_class($this->editLogo) : null,
+            'editLogo_isValid' => is_object($this->editLogo) && method_exists($this->editLogo, 'isValid') ? $this->editLogo->isValid() : null,
+            'editLogo_path' => is_object($this->editLogo) && method_exists($this->editLogo, 'getRealPath') ? $this->editLogo->getRealPath() : null,
+        ]);
+
         $validated = $this->validate([
             'editName' => 'required|string|max:255',
             'editLogo' => 'nullable|image|max:2048',

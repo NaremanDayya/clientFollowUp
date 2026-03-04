@@ -27,7 +27,16 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        
+
+        // DEBUG: Check if personal_image file is being received
+        dd([
+            'hasFile' => $request->hasFile('personal_image'),
+            'file' => $request->file('personal_image'),
+            'allFiles' => $request->allFiles(),
+            'personal_image_in_data' => array_key_exists('personal_image', $data),
+            'content_type' => $request->header('Content-Type'),
+        ]);
+
         // Handle personal image upload
         if ($request->hasFile('personal_image')) {
             $path = $request->file('personal_image')->store('avatars', 'public');
