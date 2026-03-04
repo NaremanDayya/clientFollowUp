@@ -115,11 +115,13 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
+                                @unless(auth()->user()->isAdmin())
                                 <button wire:click="openUpdateModal({{ $client->id }})"
                                         class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-colors"
                                         title="إضافة تحديث">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                 </button>
+                                @endunless
                                 <a href="{{ route('clients.show', $client) }}"
                                    class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#1e3a8a] hover:bg-blue-50 transition-colors"
                                    title="عرض الملف">
@@ -160,7 +162,7 @@
                         <input wire:model="newName" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]" placeholder="اسم العميل">
                         @error('newName') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">شعار العميل</label>
                         <input wire:model="newLogo" type="file" accept="image/*" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1e3a8a] focus:border-[#1e3a8a]">

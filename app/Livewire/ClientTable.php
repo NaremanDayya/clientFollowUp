@@ -41,7 +41,7 @@ class ClientTable extends Component
     protected function rules()
     {
         return [
-            'newLogo' => 'nullable|image|max:2048',
+            'newLogo' => 'nullable|image|max:5120',
         ];
     }
 
@@ -65,17 +65,18 @@ class ClientTable extends Component
         // Validate all fields except logo first
         $this->validate([
             'newName' => 'required|string|max:255',
-            'newPhone' => ['required', 'digits:10'],
+            'newPhone' => ['required', 'digits:10','unique:clients,phone'],
             'newEmail' => 'nullable|email|max:255',
             'newStatus' => 'required|in:new,active,inactive,completed',
         ], [
             'newPhone.digits' => 'يجب أن يتكون رقم الجوال من 10 أرقام',
+            'newPhone.unique' => 'رقم الجوال موجود بالفعل',
         ]);
 
         // Validate logo separately if provided
         if ($this->newLogo) {
             $this->validate([
-                'newLogo' => 'image|max:2048',
+                'newLogo' => 'image|max:5120',
             ], [
                 'newLogo.image' => 'يجب أن يكون الشعار صورة',
                 'newLogo.max' => 'حجم الشعار يجب أن لا يتجاوز 2 ميجابايت',
@@ -139,7 +140,7 @@ class ClientTable extends Component
                 $messageBody .= "\nالتفاصيل: {$this->updateNotes}";
             }
             $messageBody .= "\n— بواسطة " . auth()->user()->name;
-            
+
             $client->chat->messages()->create([
                 'sender_id' => auth()->id(),
                 'body' => $messageBody,

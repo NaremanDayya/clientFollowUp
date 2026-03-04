@@ -53,7 +53,7 @@ class ClientProfile extends Component
     {
         $validated = $this->validate([
             'editName' => 'required|string|max:255',
-            'editLogo' => 'nullable|image|max:2048',
+            'editLogo' => 'nullable|image|max:5120',
             'editPhone' => ['required', 'digits:10'],
             'editEmail' => 'nullable|email|max:255',
             'editStatus' => 'required|in:new,active,inactive,completed',
@@ -117,7 +117,7 @@ class ClientProfile extends Component
                 $messageBody .= "\nالتفاصيل: {$this->updateNotes}";
             }
             $messageBody .= "\n— بواسطة " . auth()->user()->name;
-            
+
             $this->client->chat->messages()->create([
                 'sender_id' => auth()->id(),
                 'body' => $messageBody,
