@@ -61,10 +61,10 @@
                             </div>
                         </div>
                         <div class="flex gap-2 pt-4 border-t border-gray-200">
-                            <button wire:click="$set('editing', true)"
-                                    class="flex-1 px-4 py-2 text-sm font-medium text-[#1e3a8a] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                                تعديل البيانات
-                            </button>
+{{--                            <button wire:click="$set('editing', true)"--}}
+{{--                                    class="flex-1 px-4 py-2 text-sm font-medium text-[#1e3a8a] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">--}}
+{{--                                تعديل البيانات--}}
+{{--                            </button>--}}
                             @if($client->chat)
                             <a href="{{ route('chats.show', $client->chat) }}"
                                class="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#1e3a8a] rounded-lg hover:bg-blue-800 transition-colors text-center">
