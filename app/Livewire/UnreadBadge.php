@@ -12,8 +12,7 @@ class UnreadBadge extends Component
     public function getUnreadCountProperty(): int
     {
         $query = Chat::whereHas('messages', function ($q) {
-            $q->where('is_read', false)
-              ->where('is_system_log', false);
+            $q->where('is_read', false);
         });
 
         // Filter by user role
