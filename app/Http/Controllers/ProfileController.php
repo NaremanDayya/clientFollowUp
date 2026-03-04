@@ -26,16 +26,22 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-
-        // DEBUG: Check if personal_image file is being received
+        // DEBUG: Check if personal_image file is being received (BEFORE validation)
         dd([
             'hasFile' => $request->hasFile('personal_image'),
             'file' => $request->file('personal_image'),
+            'file_isValid' => $request->hasFile('personal_image') ? $request->file('personal_image')->isValid() : null,
+            'file_error' => $request->hasFile('personal_image') ? $request->file('personal_image')->getError() : null,
+            'file_errorMessage' => $request->hasFile('personal_image') ? $request->file('personal_image')->getErrorMessage() : null,
+            'file_size' => $request->hasFile('personal_image') ? $request->file('personal_image')->getSize() : null,
+            'file_mimeType' => $request->hasFile('personal_image') ? $request->file('personal_image')->getMimeType() : null,
             'allFiles' => $request->allFiles(),
-            'personal_image_in_data' => array_key_exists('personal_image', $data),
             'content_type' => $request->header('Content-Type'),
+            'php_upload_max_filesize' => ini_get('upload_max_filesize'),
+            'php_post_max_size' => ini_get('post_max_size'),
         ]);
+
+        $data = $request->validated();
 
         // Handle personal image upload
         if ($request->hasFile('personal_image')) {
