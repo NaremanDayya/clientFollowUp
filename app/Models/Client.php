@@ -101,6 +101,17 @@ class Client extends Model
         return 'https://ui-avatars.com/api/?name=' . urlencode($initial) . '&color=1e3a8a&background=dbeafe&bold=true&size=128';
     }
 
+    /**
+     * Get the number of days since last update as an integer.
+     */
+    public function getLateDaysCountAttribute(): int
+    {
+        if (!$this->last_update_at) {
+            return 0;
+        }
+        return (int) $this->last_update_at->diffInDays(now());
+    }
+
     protected static function booted(): void
     {
         static::created(function (Client $client) {
